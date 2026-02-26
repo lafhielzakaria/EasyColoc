@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\colocations;
+use App\Models\memberships;
 use Illuminate\Http\Request;
 
 class ColocationsController extends Controller
@@ -18,6 +19,28 @@ class ColocationsController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'address' => 'nullable|string',
+        ]);
+
+        $colocation = colocations::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'address' => $request->address,
+            'owner_id' => auth()->id(),
+            'status' => 'active',
+        ]);
+
+        memberships::create([
+            'user_id' => auth()->id(),
+            'colocation_id' => $colocation->id,
+            'role' => 'owner',
+            'joined_at' => now(),
+        ]);
+
+        return redirect()->route('dashboard')->with('success', 'Colocation created successfully!');
     }
 
     public function show(colocations $colocations)
