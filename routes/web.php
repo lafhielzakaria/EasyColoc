@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BansController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\ColocationsController;
@@ -23,18 +24,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/admin/dashboard', function () {
-        return view('admin.dashboard', [
-            'stats' => [
-                'total_users' => 0,
-                'total_colocations' => 0,
-                'total_expenses' => 0,
-                'banned_users' => 0,
-            ],
-            'users' => collect(),
-            'colocations' => collect(),
-        ]);
-    })->name('admin.dashboard');
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::post('/admin/users/{user}/ban', [AdminController::class, 'banUser'])->name('admin.users.ban');
+    Route::post('/admin/users/{user}/unban', [AdminController::class, 'unbanUser'])->name('admin.users.unban');
 
     Route::get('/colocations', [ColocationsController::class, 'index'])->name('colocations.index');
     Route::get('/colocations/create', [ColocationsController::class, 'create'])->name('colocations.create');
