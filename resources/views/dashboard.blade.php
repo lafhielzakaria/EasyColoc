@@ -4,14 +4,12 @@
             <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
                 {{ __('Dashboard') }}
             </h2>
-            @if(!auth()->user()->activeMembership)
             <a href="{{ route('colocations.create') }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 transition">
                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                 </svg>
                 Create a Colocation
             </a>
-            @endif
         </div>
     </x-slot>
 

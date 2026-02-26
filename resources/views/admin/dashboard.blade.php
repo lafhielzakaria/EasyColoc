@@ -19,9 +19,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
-            <!-- Statistics Cards -->
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <!-- Total Users -->
                 <div class="bg-gradient-to-br from-blue-500 to-blue-600 overflow-hidden shadow-lg sm:rounded-xl p-6 text-white">
                     <div class="flex items-center justify-between">
                         <div>
@@ -36,7 +34,6 @@
                     </div>
                 </div>
 
-                <!-- Total Colocations -->
                 <div class="bg-gradient-to-br from-green-500 to-green-600 overflow-hidden shadow-lg sm:rounded-xl p-6 text-white">
                     <div class="flex items-center justify-between">
                         <div>
@@ -51,7 +48,6 @@
                     </div>
                 </div>
 
-                <!-- Total Expenses -->
                 <div class="bg-gradient-to-br from-purple-500 to-purple-600 overflow-hidden shadow-lg sm:rounded-xl p-6 text-white">
                     <div class="flex items-center justify-between">
                         <div>
@@ -67,7 +63,6 @@
                     </div>
                 </div>
 
-                <!-- Banned Users -->
                 <div class="bg-gradient-to-br from-red-500 to-red-600 overflow-hidden shadow-lg sm:rounded-xl p-6 text-white">
                     <div class="flex items-center justify-between">
                         <div>
@@ -83,7 +78,6 @@
                 </div>
             </div>
 
-            <!-- Users Management -->
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-xl">
                 <div class="p-6 border-b border-gray-200">
                     <h3 class="text-lg font-semibold text-gray-900">Gestion des utilisateurs</h3>
@@ -166,14 +160,8 @@
                         </tbody>
                     </table>
                 </div>
-                @if($users->hasPages())
-                <div class="px-6 py-4 border-t border-gray-200">
-                    {{ $users->links() }}
-                </div>
-                @endif
             </div>
 
-            <!-- Recent Colocations -->
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-xl">
                 <div class="p-6 border-b border-gray-200">
                     <h3 class="text-lg font-semibold text-gray-900">Colocations récentes</h3>

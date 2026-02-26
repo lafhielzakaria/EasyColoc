@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class expenses extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'colocation_id',
         'category_id',
@@ -26,9 +28,9 @@ class expenses extends Model
         ];
     }
 
-    public function colocation()
+    public function settlements()
     {
-        return $this->belongsTo(colocations::class);
+        return $this->hasMany(settlements::class);
     }
 
     public function category()
