@@ -13,6 +13,7 @@ class ColocationsFactory extends Factory
             'name' => fake()->words(3, true),
             'description' => fake()->sentence(),
             'address' => fake()->address(),
+            'owner_id' => User::inRandomOrder()->first()->id ?? User::factory(),
             'status' => 'active',
         ];
     }

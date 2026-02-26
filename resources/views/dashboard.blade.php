@@ -110,11 +110,12 @@
                 <!-- Active Colocation Section -->
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-xl">
                     <div class="p-6 border-b border-gray-200">
-                        <h3 class="text-lg font-semibold text-gray-900">My Active Colocation</h3>
+                        <h3 class="text-lg font-semibold text-gray-900">{{ $colocation->name }}</h3>
                     </div>
                     <div class="p-6">
-                        <p class="text-gray-600">You are a member of an active colocation.</p>
-                        <a href="#" class="mt-4 inline-flex items-center text-indigo-600 hover:text-indigo-700 font-medium">
+                        <p class="text-gray-600">{{ $colocation->description }}</p>
+                        <p class="text-sm text-gray-500 mt-2">{{ $colocation->address }}</p>
+                        <a href="{{ route('colocations.show', $colocation) }}" class="mt-4 inline-flex items-center text-indigo-600 hover:text-indigo-700 font-medium">
                             View details
                             <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>

@@ -16,7 +16,9 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $user = auth()->user();
+    $colocation = $user->activeMembership ? $user->activeMembership->colocation : null;
+    return view('dashboard', compact('colocation'));
 })->middleware(['auth'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
