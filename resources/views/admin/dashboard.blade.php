@@ -11,7 +11,7 @@
                 <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                 </svg>
-                Admin Global
+                Admin
             </span>
         </div>
     </x-slot>
@@ -79,8 +79,17 @@
             </div>
 
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-xl">
-                <div class="p-6 border-b border-gray-200">
+                <div class="p-6 border-b border-gray-200 flex justify-between items-center">
                     <h3 class="text-lg font-semibold text-gray-900">Gestion des utilisateurs</h3>
+                    @if(request('show') === 'all')
+                        <a href="{{ route('admin.dashboard') }}" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition text-sm">
+                            View Less
+                        </a>
+                    @else
+                        <a href="{{ route('admin.dashboard', ['show' => 'all']) }}" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition text-sm">
+                            View All
+                        </a>
+                    @endif
                 </div>
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200">
@@ -184,7 +193,7 @@
                                     <div class="text-sm font-medium text-gray-900">{{ $colocation->name }}</div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900">{{ $colocation->owner->name }}</div>
+                                    <div class="text-sm text-gray-900">{{ $colocation->owner ? $colocation->owner->name : 'N/A' }}</div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="text-sm text-gray-900">{{ $colocation->activeMembers()->count() }}</div>
