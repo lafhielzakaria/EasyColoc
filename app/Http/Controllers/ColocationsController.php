@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreColocationRequest;
 use App\Models\colocations;
 use App\Models\memberships;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ColocationsController extends Controller
 {
@@ -17,7 +18,7 @@ class ColocationsController extends Controller
         return view('colocations.create');        
     }
 
-    public function store(Request $request)
+    public function store(StoreColocationRequest $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
@@ -29,12 +30,12 @@ class ColocationsController extends Controller
             'name' => $request->name,
             'description' => $request->description,
             'address' => $request->address,
-            'owner_id' => auth()->id(),
+            'owner_id' => Auth::id(),
             'status' => 'active',
         ]);
 
         memberships::create([
-            'user_id' => auth()->id(),
+            'user_id' => Auth::id(),
             'colocation_id' => $colocation->id,
             'role' => 'owner',
             'joined_at' => now(),
@@ -51,9 +52,9 @@ class ColocationsController extends Controller
     {
     }
 
-    public function update(Request $request, colocations $colocations)
-    {
-    }
+    // public function update(Request $request, colocations $colocations)
+    // {
+    // }
 
     public function destroy(colocations $colocations)
     {
