@@ -54,9 +54,10 @@
                             </div>
                             <h4 class="text-lg font-semibold text-gray-900 mb-2">Invite by Email</h4>
                             <p class="text-sm text-gray-600 mb-4">Send an invitation directly to someone's email</p>
-                            <button class="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-medium">
+                            
+                            <a href="{{ route('invitations.email') }}" class="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-medium inline-block">
                                 Send Email
-                            </button>
+                            </a>
                         </div>
                     </div>
 

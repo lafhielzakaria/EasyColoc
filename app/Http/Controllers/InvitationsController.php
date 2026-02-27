@@ -47,6 +47,23 @@ class InvitationsController extends Controller
         return view('invitations.join');
     }
 
+    public function email()
+    {
+        return view('invitations.email');
+    }
+
+    public function joinByEmail($colocationId)
+    {
+        \App\Models\memberships::create([
+            'user_id' => Auth::id(),
+            'colocation_id' => $colocationId,
+            'role' => 'member',
+            'joined_at' => now(),
+        ]);
+
+        return redirect()->route('dashboard');
+    }
+
     public function accept(Request $request)
     {
         $invitation = invitations::where('token', $request->token)->first();
@@ -70,7 +87,21 @@ class InvitationsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = \App\Models\User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return redirect()->back()->withErrors(['email' => 'Invalid email']);
+        }
+
+        if (\App\Models\memberships::where('user_id', $user->id)->whereNull('left_at')->exists()) {
+            return redirect()->back()->withErrors(['email' => 'This email has a colocation']);
+        }
+
+        $colocation = Auth::user()->activeMembership->colocation;
+
+        $user->notify(new \App\Notifications\ColocationInvitation($colocation->id));
+
+        return redirect()->route('invitations.create');
     }
 
     /**
