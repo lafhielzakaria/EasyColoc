@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('colocation_id')->constrained()->onDelete('cascade');
             $table->foreignId('invited_by')->constrained('users')->onDelete('cascade');
-            $table->string('email');
+            $table->string('email')->nullable();
             $table->string('token')->unique();
             $table->string('status')->default('pending');
             $table->timestamp('accepted_at')->nullable();
