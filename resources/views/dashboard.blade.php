@@ -123,10 +123,15 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
                             </svg>
                             <h3 class="text-lg font-semibold text-gray-900 mb-2">No Colocation</h3>
-                            <p class="text-sm text-gray-500 mb-4">Create or join one</p>
-                            <a href="{{ route('colocations.create') }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition text-sm font-medium">
-                                Create Colocation
-                            </a>
+                            <p class="text-sm text-gray-500 mb-6">Create or join one</p>
+                            <div class="grid grid-cols-2 gap-3">
+                                <a href="{{ route('invitations.join') }}" class="px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition text-sm font-medium shadow-sm">
+                                    Join Colocation
+                                </a>
+                                <a href="{{ route('colocations.create') }}" class="px-4 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition text-sm font-medium shadow-sm">
+                                    Create Colocation
+                                </a>
+                            </div>
                         </div>
                     @endif
                 </div>

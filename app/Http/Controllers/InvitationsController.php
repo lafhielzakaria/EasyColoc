@@ -32,7 +32,7 @@ class InvitationsController extends Controller
         $invitation = invitations::create([
             'colocation_id' => $colocation->id,
             'invited_by' => Auth::id(),
-            'token' => \Illuminate\Support\Str::random(32),
+            'token' => \Illuminate\Support\Str::random(10),
             'status' => 'pending',
             'email' => null,
             'message' => null,
@@ -40,6 +40,29 @@ class InvitationsController extends Controller
         ]);
 
         return redirect()->route('invitations.create')->with('generatedToken', $invitation->token);
+    }
+
+    public function join()
+    {
+        return view('invitations.join');
+    }
+
+    public function accept(Request $request)
+    {
+        $invitation = invitations::where('token', $request->token)->first();
+
+        if (!$invitation) {
+            return redirect()->back()->withErrors(['token' => 'Invalid token']);
+        }
+
+        \App\Models\memberships::create([
+            'user_id' => Auth::id(),
+            'colocation_id' => $invitation->colocation_id,
+            'role' => 'member',
+            'joined_at' => now(),
+        ]);
+
+        return redirect()->route('dashboard');
     }
 
     /**

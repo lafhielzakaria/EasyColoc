@@ -49,6 +49,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/invitations', [InvitationsController::class, 'index'])->name('invitations.index');
     Route::get('/invitations/create', [InvitationsController::class, 'create'])->name('invitations.create');
+    Route::get('/invitations/join', [InvitationsController::class, 'join'])->name('invitations.join');
+    Route::post('/invitations/accept', [InvitationsController::class, 'accept'])->name('invitations.accept');
     Route::post('/invitations/generate-key', [InvitationsController::class, 'generateKey'])->name('invitations.generateKey');
     Route::post('/invitations', [InvitationsController::class, 'store'])->name('invitations.store');
     Route::get('/invitations/{invitations}', [InvitationsController::class, 'show'])->name('invitations.show');
