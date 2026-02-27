@@ -110,6 +110,14 @@
                                         @endforeach
                                     </div>
                                     
+                                    <form method="POST" action="{{ route('colocation.leave') }}" class="mt-4">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="w-full px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition text-sm font-medium">
+                                            Leave Colocation
+                                        </button>
+                                    </form>
+                                    
                                     <a href="{{ route('invitations.create') }}" class="mt-4 w-full inline-flex items-center justify-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition text-sm font-medium">
                                         Invite People
                                     </a>

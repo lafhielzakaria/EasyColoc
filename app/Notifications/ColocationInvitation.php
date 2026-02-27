@@ -38,7 +38,7 @@ class ColocationInvitation extends Notification
             ->subject('Colocation Invitation')
             ->line('You have been invited to join ' . $this->colocationName . ' colocation.')
             ->action('Join Colocation', url('/colocation/join/' . $this->colocationId))
-            ->action('Reject', url('/colocation/reject/' . $this->colocationId))
+            ->line('Or reject this invitation: ' . url('/colocation/reject/' . $this->colocationId))
             ->line('Thank you!');
     }
 

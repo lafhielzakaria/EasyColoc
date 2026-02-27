@@ -4,9 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\memberships;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MembershipsController extends Controller
 {
+    public function leave()
+    {
+        memberships::where('user_id', Auth::id())->whereNull('left_at')->delete();
+        return redirect()->route('dashboard');
+    }
     /**
      * Display a listing of the resource.
      */
