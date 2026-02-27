@@ -14,7 +14,7 @@ class ColocationInvitation extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct(public $colocationId)
+    public function __construct(public $colocationId, public $colocationName)
     {
         //
     }
@@ -36,8 +36,9 @@ class ColocationInvitation extends Notification
     {
         return (new MailMessage)
             ->subject('Colocation Invitation')
-            ->line('You have been invited to join a colocation.')
+            ->line('You have been invited to join ' . $this->colocationName . ' colocation.')
             ->action('Join Colocation', url('/colocation/join/' . $this->colocationId))
+            ->action('Reject', url('/colocation/reject/' . $this->colocationId))
             ->line('Thank you!');
     }
 

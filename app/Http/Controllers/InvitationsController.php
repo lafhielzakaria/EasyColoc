@@ -61,6 +61,19 @@ class InvitationsController extends Controller
             'joined_at' => now(),
         ]);
 
+        invitations::where('colocation_id', $colocationId)
+            ->where('email', Auth::user()->email)
+            ->update(['status' => 'accepted', 'accepted_at' => now()]);
+
+        return redirect()->route('dashboard');
+    }
+
+    public function rejectByEmail($colocationId)
+    {
+        invitations::where('colocation_id', $colocationId)
+            ->where('email', Auth::user()->email)
+            ->update(['status' => 'rejected']);
+
         return redirect()->route('dashboard');
     }
 
@@ -99,7 +112,17 @@ class InvitationsController extends Controller
 
         $colocation = Auth::user()->activeMembership->colocation;
 
-        $user->notify(new \App\Notifications\ColocationInvitation($colocation->id));
+        invitations::create([
+            'colocation_id' => $colocation->id,
+            'invited_by' => Auth::id(),
+            'email' => $request->email,
+            'status' => 'pending',
+            'token' => null,
+            'message' => null,
+            'expires_at' => null
+        ]);
+
+        $user->notify(new \App\Notifications\ColocationInvitation($colocation->id, $colocation->name));
 
         return redirect()->route('invitations.create');
     }

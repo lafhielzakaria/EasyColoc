@@ -52,6 +52,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/invitations/email', [InvitationsController::class, 'email'])->name('invitations.email');
     Route::get('/invitations/join', [InvitationsController::class, 'join'])->name('invitations.join');
     Route::get('/colocation/join/{colocationId}', [InvitationsController::class, 'joinByEmail'])->name('invitations.joinByEmail');
+    Route::get('/colocation/reject/{colocationId}', [InvitationsController::class, 'rejectByEmail'])->name('invitations.rejectByEmail');
     Route::post('/invitations/accept', [InvitationsController::class, 'accept'])->name('invitations.accept');
     Route::post('/invitations/generate-key', [InvitationsController::class, 'generateKey'])->name('invitations.generateKey');
     Route::post('/invitations', [InvitationsController::class, 'store'])->name('invitations.store');
