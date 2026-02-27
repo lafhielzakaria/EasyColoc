@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\invitations;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class InvitationsController extends Controller
 {
@@ -20,7 +21,25 @@ class InvitationsController extends Controller
      */
     public function create()
     {
-        //
+        return view('invitations.create');
+    }
+
+    public function generateKey()
+    {
+        $user = Auth::user();
+        $colocation = $user->activeMembership->colocation;
+        
+        $invitation = invitations::create([
+            'colocation_id' => $colocation->id,
+            'invited_by' => Auth::id(),
+            'token' => \Illuminate\Support\Str::random(32),
+            'status' => 'pending',
+            'email' => null,
+            'message' => null,
+            'expires_at' => null
+        ]);
+
+        return redirect()->route('invitations.create')->with('generatedToken', $invitation->token);
     }
 
     /**

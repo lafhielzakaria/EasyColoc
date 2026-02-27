@@ -9,6 +9,7 @@ use App\Http\Controllers\InvitationsController;
 use App\Http\Controllers\MembershipsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettlementsController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -16,7 +17,7 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    $user = auth()->user();
+    $user = Auth::user();
     $colocation = $user->activeMembership ? $user->activeMembership->colocation : null;
     return view('dashboard', compact('colocation'));
 })->middleware(['auth'])->name('dashboard');
@@ -48,6 +49,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/invitations', [InvitationsController::class, 'index'])->name('invitations.index');
     Route::get('/invitations/create', [InvitationsController::class, 'create'])->name('invitations.create');
+    Route::post('/invitations/generate-key', [InvitationsController::class, 'generateKey'])->name('invitations.generateKey');
     Route::post('/invitations', [InvitationsController::class, 'store'])->name('invitations.store');
     Route::get('/invitations/{invitations}', [InvitationsController::class, 'show'])->name('invitations.show');
     Route::get('/invitations/{invitations}/edit', [InvitationsController::class, 'edit'])->name('invitations.edit');

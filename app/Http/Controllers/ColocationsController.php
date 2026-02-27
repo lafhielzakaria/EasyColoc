@@ -23,7 +23,7 @@ class ColocationsController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'address' => 'nullable|string',
+            'address' => 'string',
         ]);
 
         $colocation = colocations::create([

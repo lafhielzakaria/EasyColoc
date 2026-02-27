@@ -1,105 +1,73 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
-            {{ __('Inviter un membre') }}
+            {{ __('Invite People') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-xl">
-                <div class="p-8">
-                    <div class="mb-6">
-                        <h3 class="text-lg font-semibold text-gray-900">{{ $colocation->name }}</h3>
-                        <p class="text-sm text-gray-600 mt-1">Invitez un nouveau membre à rejoindre votre colocation</p>
-                    </div>
-
-                    <form method="POST" action="{{ route('invitations.send', $colocation) }}" class="space-y-6">
-                        @csrf
-
-                        <!-- Email -->
-                        <div>
-                            <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
-                                Adresse email <span class="text-red-500">*</span>
-                            </label>
-                            <input type="email" name="email" id="email" required
-                                   class="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 @error('email') border-red-500 @enderror"
-                                   value="{{ old('email') }}"
-                                   placeholder="exemple@email.com">
-                            @error('email')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <!-- Message (optional) -->
-                        <div>
-                            <label for="message" class="block text-sm font-medium text-gray-700 mb-2">
-                                Message personnel (optionnel)
-                            </label>
-                            <textarea name="message" id="message" rows="4"
-                                      class="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
-                                      placeholder="Ajoutez un message personnel à votre invitation...">{{ old('message') }}</textarea>
-                        </div>
-
-                        <!-- Info Box -->
-                        <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
-                            <div class="flex">
-                                <svg class="h-5 w-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+        <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white rounded-xl shadow p-8">
+                <h3 class="text-xl font-bold text-gray-900 mb-6">Choose invitation method</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    
+                    <!-- Generate Key -->
+                    <div class="border-2 border-gray-200 rounded-xl p-6 hover:border-indigo-500 transition">
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path>
                                 </svg>
-                                <div class="ml-3">
-                                    <p class="text-sm text-blue-700">
-                                        Un email d'invitation sera envoyé à cette adresse avec un lien unique pour rejoindre la colocation.
-                                    </p>
+                            </div>
+                            <h4 class="text-lg font-semibold text-gray-900 mb-2">Generate Key</h4>
+                            <p class="text-sm text-gray-600 mb-4">Create a unique invitation key that can be shared</p>
+                            
+                            @if(session('generatedToken'))
+                                <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-4 mb-4">
+                                    <p class="text-xs text-gray-600 mb-2">Your invitation key:</p>
+                                    <div class="flex items-center gap-2">
+                                        <input type="text" value="{{ session('generatedToken') }}" readonly class="flex-1 px-3 py-2 bg-white border border-gray-300 rounded text-sm font-mono">
+                                        <button onclick="navigator.clipboard.writeText('{{ session('generatedToken') }}')" class="px-3 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-sm">
+                                            Copy
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-
-                        <!-- Buttons -->
-                        <div class="flex items-center justify-end space-x-4 pt-4">
-                            <a href="{{ route('colocations.show', $colocation) }}" class="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition font-medium">
-                                Annuler
-                            </a>
-                            <button type="submit" class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-medium">
-                                Envoyer l'invitation
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            <!-- Pending Invitations -->
-            @if($pendingInvitations->count() > 0)
-            <div class="mt-6 bg-white overflow-hidden shadow-sm sm:rounded-xl">
-                <div class="p-6 border-b border-gray-200">
-                    <h3 class="text-lg font-semibold text-gray-900">Invitations en attente</h3>
-                </div>
-                <div class="p-6">
-                    <div class="space-y-4">
-                        @foreach($pendingInvitations as $invitation)
-                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200">
-                            <div>
-                                <p class="font-medium text-gray-900">{{ $invitation->email }}</p>
-                                <p class="text-sm text-gray-500">Envoyée le {{ $invitation->created_at->format('d/m/Y à H:i') }}</p>
-                            </div>
-                            <div class="flex items-center space-x-3">
-                                <span class="px-3 py-1 bg-yellow-100 text-yellow-800 text-xs font-medium rounded-full">
-                                    En attente
-                                </span>
-                                <form method="POST" action="{{ route('invitations.cancel', $invitation) }}">
+                            @else
+                                <form method="POST" action="{{ route('invitations.generateKey') }}">
                                     @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="text-red-600 hover:text-red-800 text-sm font-medium">
-                                        Annuler
+                                    <button type="submit" class="w-full px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-medium">
+                                        Generate Key
                                     </button>
                                 </form>
-                            </div>
+                            @endif
                         </div>
-                        @endforeach
                     </div>
+
+                    <!-- Invite by Email -->
+                    <div class="border-2 border-gray-200 rounded-xl p-6 hover:border-indigo-500 transition">
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                </svg>
+                            </div>
+                            <h4 class="text-lg font-semibold text-gray-900 mb-2">Invite by Email</h4>
+                            <p class="text-sm text-gray-600 mb-4">Send an invitation directly to someone's email</p>
+                            <button class="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-medium">
+                                Send Email
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="mt-6 text-center">
+                    <a href="{{ route('dashboard') }}" class="text-gray-600 hover:text-gray-900 text-sm font-medium">
+                        ← Back to Dashboard
+                    </a>
                 </div>
             </div>
-            @endif
         </div>
     </div>
 </x-app-layout>
