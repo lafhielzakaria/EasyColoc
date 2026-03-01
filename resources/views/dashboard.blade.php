@@ -66,9 +66,12 @@
                             <h3 class="text-xl font-bold text-gray-900 mb-4">Categories</h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 @foreach($colocation->categories as $category)
-                                    <a href="{{ route('categories.show', $category->id) }}" class="bg-gray-50 rounded-lg p-4 border border-gray-200 hover:bg-gray-100 transition">
-                                        <p class="font-medium text-gray-900">{{ $category->name }}</p>
-                                    </a>
+                                    <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                                        <a href="{{ route('categories.show', $category->id) }}" class="block hover:bg-gray-100 transition">
+                                            <p class="font-medium text-gray-900">{{ $category->name }}</p>
+                                            <p class="text-sm text-gray-500 mt-1">{{ $category->expenses->count() }} expenses</p>
+                                        </a>
+                                    </div>
                                 @endforeach
                             </div>
                         </div>

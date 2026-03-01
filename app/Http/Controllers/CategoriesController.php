@@ -51,9 +51,9 @@ class CategoriesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(categories $category)
+    public function show($categoryId)
     {
-        $category->load('expenses');
+        $category = categories::with('expenses')->findOrFail($categoryId);
         return view('categories.show', compact('category'));
     }
 
