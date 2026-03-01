@@ -53,8 +53,15 @@ class CategoriesController extends Controller
      */
     public function show($categoryId)
     {
-        $category = categories::with('expenses')->findOrFail($categoryId);
-        return view('categories.show', compact('category'));
+        $month = request()->query('month', now()->format('Y-m'));
+        $firstDay = $month . '-01';
+        $lastDay = date('Y-m-t', strtotime($firstDay));
+        
+        $category = categories::with(['expenses' => function($query) use ($firstDay, $lastDay) {
+            $query->where('date', '>=', $firstDay)
+                  ->where('date', '<=', $lastDay);
+        }])->findOrFail($categoryId);
+        return view('categories.show', compact('category', 'month'));
     }
 
     /**

@@ -29,6 +29,7 @@ Route::get('/dashboard', function () {
     
     $settlements = [];
     $totalUnpaid = 0;
+    $balance = 0;
     if ($colocation) {
         $settlements = \App\Models\settlements::where('is_paid', false)
             ->where(function($query) {
@@ -47,9 +48,18 @@ Route::get('/dashboard', function () {
                 $query->where('colocation_id', $colocation->id);
             })
             ->sum('amount');
+        
+        $totalOwed = \App\Models\settlements::where('is_paid', false)
+            ->where('creditor_id', Auth::id())
+            ->whereHas('expenses', function($query) use ($colocation) {
+                $query->where('colocation_id', $colocation->id);
+            })
+            ->sum('amount');
+        
+        $balance = $totalOwed - $totalUnpaid;
     }
     
-    return view('dashboard', compact('colocation', 'settlements', 'totalUnpaid'));
+    return view('dashboard', compact('colocation', 'settlements', 'totalUnpaid', 'balance'));
 })->middleware(['auth'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
