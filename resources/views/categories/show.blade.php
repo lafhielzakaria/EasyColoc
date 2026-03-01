@@ -1,8 +1,15 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
-            {{ $category->name }}
-        </h2>
+        <div class="flex items-center gap-3">
+            <a href="{{ route('dashboard') }}" class="text-gray-600 hover:text-gray-900">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+            </a>
+            <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
+                {{ $category->name }}
+            </h2>
+        </div>
     </x-slot>
 
     <div class="py-12">
@@ -10,9 +17,25 @@
             <div class="bg-white rounded-xl shadow p-8">
                 <div class="flex items-center justify-between mb-6">
                     <h3 class="text-xl font-bold text-gray-900">Expenses</h3>
-                    <a href="{{ route('expenses.create') }}" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition text-sm font-medium">
-                        Create Expense
-                    </a>
+                    <div class="flex gap-3">
+                        @php
+                            $categoryUrl = route('categories.show', $category->id);
+                        @endphp
+                        <select onchange="window.location.href = '{{ $categoryUrl }}?month=' + this.value;" class="px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                            @for($i = 0; $i < 12; $i++)
+                                @php
+                                    $date = now()->subMonths($i);
+                                    $value = $date->format('Y-m');
+                                @endphp
+                                <option value="{{ $value }}" {{ $month == $value ? 'selected' : '' }}>
+                                    {{ $date->format('F Y') }}
+                                </option>
+                            @endfor
+                        </select>
+                        <a href="{{ route('expenses.create') }}" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition text-sm font-medium">
+                            Create Expense
+                        </a>
+                    </div>
                 </div>
 
                 @if($category->expenses->count() > 0)

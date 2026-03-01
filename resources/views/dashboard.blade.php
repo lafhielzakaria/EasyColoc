@@ -35,7 +35,9 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div class="bg-white rounded-xl shadow p-6">
                             <p class="text-sm text-gray-500 mb-1">My Balance</p>
-                            <p class="text-3xl font-bold text-gray-900">0.00 €</p>
+                            <p class="text-3xl font-bold {{ $balance >= 0 ? 'text-green-600' : 'text-red-600' }}">
+                                {{ $balance >= 0 ? '+' : '' }}{{ number_format($balance, 2) }} €
+                            </p>
                         </div>
                         <div class="bg-white rounded-xl shadow p-6">
                             <p class="text-sm text-gray-500 mb-1">Expenses</p>
