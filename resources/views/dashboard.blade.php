@@ -49,9 +49,30 @@
 
                     <!-- Activity -->
                     <div class="bg-white rounded-xl shadow p-8">
-                        <h3 class="text-xl font-bold text-gray-900 mb-4">Recent Activity</h3>
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-bold text-gray-900">Recent Activity</h3>
+                            @if($colocation)
+                                <a href="{{ route('categories.create') }}" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition text-sm font-medium">
+                                    Create Category
+                                </a>
+                            @endif
+                        </div>
                         <p class="text-gray-500">Your colocation activity will appear here.</p>
                     </div>
+
+                    @if($colocation && $colocation->categories->count() > 0)
+                        <!-- Categories -->
+                        <div class="bg-white rounded-xl shadow p-8">
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">Categories</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                @foreach($colocation->categories as $category)
+                                    <a href="{{ route('categories.show', $category->id) }}" class="bg-gray-50 rounded-lg p-4 border border-gray-200 hover:bg-gray-100 transition">
+                                        <p class="font-medium text-gray-900">{{ $category->name }}</p>
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
 
                 </div>
 

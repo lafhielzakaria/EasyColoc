@@ -22,7 +22,7 @@ Route::get('/dashboard', function () {
         ->whereHas('colocation', function($query) {
             $query->where('status', '!=', 'cancelled');
         })
-        ->with('colocation.activeMembers.user')
+        ->with('colocation.activeMembers.user', 'colocation.categories')
         ->first();
     
     $colocation = $membership ? $membership->colocation : null;
