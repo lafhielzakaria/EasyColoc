@@ -13,6 +13,27 @@ class MembershipsController extends Controller
         memberships::where('user_id', Auth::id())->whereNull('left_at')->delete();
         return redirect()->route('dashboard');
     }
+
+    public function removeMember($membershipId)
+    {
+        $membership = memberships::findOrFail($membershipId);
+        $membership->user->decrement('reputation');
+        $membership->delete();
+        return redirect()->route('dashboard');
+    }
+
+    public function transferOwnership($membershipId)
+    {
+        $newOwnerMembership = memberships::findOrFail($membershipId);
+        $currentOwnerMembership = memberships::where('colocation_id', $newOwnerMembership->colocation_id)
+            ->where('role', 'owner')
+            ->first();
+        
+        $currentOwnerMembership->update(['role' => 'member']);
+        $newOwnerMembership->update(['role' => 'owner']);
+        
+        return redirect()->route('dashboard');
+    }
     /**
      * Display a listing of the resource.
      */

@@ -10,7 +10,10 @@ class StoreColocationRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return !colocations::where('owner_id', Auth::id())->exists();
+        return !\App\Models\memberships::where('user_id', Auth::id())
+            ->where('role', 'owner')
+            ->whereNull('left_at')
+            ->exists();
     }
 
     protected function failedAuthorization()

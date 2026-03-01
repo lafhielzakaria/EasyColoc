@@ -17,13 +17,24 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    $user = Auth::user();
-    $colocation = $user->activeMembership ? $user->activeMembership->colocation : null;
+    $membership = \App\Models\memberships::where('user_id', Auth::id())
+        ->whereNull('left_at')
+        ->whereHas('colocation', function($query) {
+            $query->where('status', '!=', 'cancelled');
+        })
+        ->with('colocation.activeMembers.user')
+        ->first();
+    
+    $colocation = $membership ? $membership->colocation : null;
+    
     return view('dashboard', compact('colocation'));
 })->middleware(['auth'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::delete('/colocation/leave', [MembershipsController::class, 'leave'])->name('colocation.leave');
+    Route::delete('/colocation/cancel', [ColocationsController::class, 'cancel'])->name('colocation.cancel');
+    Route::delete('/membership/{membership}', [MembershipsController::class, 'removeMember'])->name('membership.remove');
+    Route::post('/membership/{membership}/transfer-ownership', [MembershipsController::class, 'transferOwnership'])->name('membership.transferOwnership');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
