@@ -5,7 +5,7 @@
                 <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
                     {{ __('Administration') }}
                 </h2>
-                <p class="text-sm text-gray-600 mt-1">Gestion globale de la plateforme</p>
+                <p class="text-sm text-gray-600 mt-1">Global platform management</p>
             </div>
             <span class="inline-flex items-center px-4 py-2 bg-red-100 border border-red-200 rounded-lg font-semibold text-xs text-red-800 uppercase tracking-widest">
                 <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
@@ -23,7 +23,7 @@
                 <div class="bg-gradient-to-br from-blue-500 to-blue-600 overflow-hidden shadow-lg sm:rounded-xl p-6 text-white">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-blue-100 text-sm font-medium">Utilisateurs</p>
+                            <p class="text-blue-100 text-sm font-medium">Users</p>
                             <p class="text-3xl font-bold mt-2">{{ $stats['total_users'] }}</p>
                         </div>
                         <div class="bg-white bg-opacity-20 rounded-full p-3">
@@ -51,7 +51,7 @@
                 <div class="bg-gradient-to-br from-purple-500 to-purple-600 overflow-hidden shadow-lg sm:rounded-xl p-6 text-white">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-purple-100 text-sm font-medium">Dépenses</p>
+                            <p class="text-purple-100 text-sm font-medium">Expenses</p>
                             <p class="text-3xl font-bold mt-2">{{ $stats['total_expenses'] }}</p>
                         </div>
                         <div class="bg-white bg-opacity-20 rounded-full p-3">
@@ -66,7 +66,7 @@
                 <div class="bg-gradient-to-br from-red-500 to-red-600 overflow-hidden shadow-lg sm:rounded-xl p-6 text-white">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-red-100 text-sm font-medium">Bannis</p>
+                            <p class="text-red-100 text-sm font-medium">Banned</p>
                             <p class="text-3xl font-bold mt-2">{{ $stats['banned_users'] }}</p>
                         </div>
                         <div class="bg-white bg-opacity-20 rounded-full p-3">
@@ -80,7 +80,7 @@
 
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-xl">
                 <div class="p-6 border-b border-gray-200 flex justify-between items-center">
-                    <h3 class="text-lg font-semibold text-gray-900">Gestion des utilisateurs</h3>
+                    <h3 class="text-lg font-semibold text-gray-900">User Management</h3>
                     @if(request('show') === 'all')
                         <a href="{{ route('admin.dashboard') }}" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition text-sm">
                             View Less
@@ -95,11 +95,11 @@
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
                             <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Utilisateur</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Réputation</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Statut</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Inscription</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Reputation</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Registration</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                             </tr>
                         </thead>
@@ -130,11 +130,11 @@
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     @if($user->is_banned)
                                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                                            Banni
+                                            Banned
                                         </span>
                                     @else
                                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                            Actif
+                                            Active
                                         </span>
                                     @endif
                                 </td>
@@ -146,23 +146,23 @@
                                         @if($user->is_banned)
                                             <form method="POST" action="{{ route('admin.users.unban', $user) }}" class="inline">
                                                 @csrf
-                                                <button type="submit" class="text-green-600 hover:text-green-900">Débannir</button>
+                                                <button type="submit" class="text-green-600 hover:text-green-900">Unban</button>
                                             </form>
                                         @else
                                             <form method="POST" action="{{ route('admin.users.ban', $user) }}" class="inline">
                                                 @csrf
-                                                <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('Êtes-vous sûr de vouloir bannir cet utilisateur ?')">Bannir</button>
+                                                <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('Are you sure you want to ban this user?')">Ban</button>
                                             </form>
                                         @endif
                                     @else
-                                        <span class="text-gray-400">Vous</span>
+                                        <span class="text-gray-400">You</span>
                                     @endif
                                 </td>
                             </tr>
                             @empty
                             <tr>
                                 <td colspan="6" class="px-6 py-12 text-center text-gray-500">
-                                    Aucun utilisateur trouvé
+                                    No users found
                                 </td>
                             </tr>
                             @endforelse
@@ -173,17 +173,17 @@
 
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-xl">
                 <div class="p-6 border-b border-gray-200">
-                    <h3 class="text-lg font-semibold text-gray-900">Colocations récentes</h3>
+                    <h3 class="text-lg font-semibold text-gray-900">Recent Colocations</h3>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
                             <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nom</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Propriétaire</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Membres</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Statut</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Créée le</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Owner</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Members</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created on</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
@@ -205,7 +205,7 @@
                                         </span>
                                     @else
                                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
-                                            Annulée
+                                            Cancelled
                                         </span>
                                     @endif
                                 </td>
@@ -216,7 +216,7 @@
                             @empty
                             <tr>
                                 <td colspan="5" class="px-6 py-12 text-center text-gray-500">
-                                    Aucune colocation trouvée
+                                    No colocation found
                                 </td>
                             </tr>
                             @endforelse

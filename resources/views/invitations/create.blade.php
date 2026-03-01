@@ -11,8 +11,6 @@
                 <h3 class="text-xl font-bold text-gray-900 mb-6">Choose invitation method</h3>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    
-                    <!-- Generate Key -->
                     <div class="border-2 border-gray-200 rounded-xl p-6 hover:border-indigo-500 transition">
                         <div class="text-center">
                             <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -44,7 +42,6 @@
                         </div>
                     </div>
 
-                    <!-- Invite by Email -->
                     <div class="border-2 border-gray-200 rounded-xl p-6 hover:border-indigo-500 transition">
                         <div class="text-center">
                             <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">

@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
-            {{ __('Créer une nouvelle colocation') }}
+            {{ __('Create New Colocation') }}
         </h2>
     </x-slot>
 
@@ -18,48 +18,44 @@
                             </div>
                         @enderror
 
-                        <!-- Colocation Name -->
                         <div>
                             <label for="name" class="block text-sm font-medium text-gray-700 mb-2">
-                                Nom de la colocation <span class="text-red-500">*</span>
+                                Colocation Name <span class="text-red-500">*</span>
                             </label>
                             <input type="text" name="name" id="name" required
                                    class="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 @error('name') border-red-500 @enderror"
                                    value="{{ old('name') }}"
-                                   placeholder="Ex: Appartement Centre-Ville">
+                                   placeholder="Ex: Downtown Apartment">
                             @error('name')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
 
-                        <!-- Description -->
                         <div>
                             <label for="description" class="block text-sm font-medium text-gray-700 mb-2">
                                 Description
                             </label>
                             <textarea name="description" id="description" rows="4"
                                       class="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 @error('description') border-red-500 @enderror"
-                                      placeholder="Décrivez votre colocation...">{{ old('description') }}</textarea>
+                                      placeholder="Describe your colocation...">{{ old('description') }}</textarea>
                             @error('description')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
 
-                        <!-- Address -->
                         <div>
                             <label for="address" class="block text-sm font-medium text-gray-700 mb-2">
-                                Adresse
+                                Adress
                             </label>
                             <input type="text" name="address" id="address"
                                    class="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 @error('address') border-red-500 @enderror"
                                    value="{{ old('address') }}"
-                                   placeholder="123 Rue de la Paix, 75001 Paris">
+                                   placeholder="123 Peace Street, 75001 Paris">
                             @error('address')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
 
-                        <!-- Info Box -->
                         <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
                             <div class="flex">
                                 <svg class="h-5 w-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
@@ -67,19 +63,18 @@
                                 </svg>
                                 <div class="ml-3">
                                     <p class="text-sm text-blue-700">
-                                        En créant cette colocation, vous deviendrez automatiquement le propriétaire (Owner) et pourrez inviter d'autres membres.
+                                        By creating this colocation, you will automatically become the owner and will be able to invite other members.
                                     </p>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Buttons -->
                         <div class="flex items-center justify-end space-x-4 pt-4">
                             <a href="{{ route('dashboard') }}" class="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition font-medium">
-                                Annuler
+                                Cancel
                             </a>
                             <button type="submit" class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-medium">
-                                Créer la colocation
+                                Create Colocation
                             </button>
                         </div>
                     </form>

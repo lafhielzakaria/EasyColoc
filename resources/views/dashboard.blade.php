@@ -21,17 +21,12 @@
             @endif
 
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
-                
-                <!-- Main Content -->
                 <div class="lg:col-span-3 space-y-6">
-                    
-                    <!-- Welcome Card -->
                     <div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl shadow-lg p-8 text-white">
                         <h3 class="text-3xl font-bold mb-2">Welcome, {{ auth()->user()->name }}! 👋</h3>
                         <p class="text-indigo-100">Manage your colocation expenses easily</p>
                     </div>
 
-                    <!-- Stats -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div class="bg-white rounded-xl shadow p-6">
                             <p class="text-sm text-gray-500 mb-1">My Balance</p>
@@ -49,7 +44,6 @@
                         </div>
                     </div>
 
-                    <!-- Activity -->
                     <div class="bg-white rounded-xl shadow p-8">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="text-xl font-bold text-gray-900">Recent Activity</h3>
@@ -63,7 +57,6 @@
                     </div>
 
                     @if(session('settlements'))
-                        <!-- Settlements -->
                         <div class="bg-white rounded-xl shadow p-8">
                             <h3 class="text-xl font-bold text-gray-900 mb-4">Settlements Created</h3>
                             <div class="space-y-3">
@@ -82,7 +75,6 @@
                     @endif
 
                     @if($settlements && $settlements->count() > 0)
-                        <!-- Settlements -->
                         <div class="bg-white rounded-xl shadow p-8">
                             <div class="flex items-center justify-between mb-4">
                                 <h3 class="text-xl font-bold text-gray-900">Unpaid Settlements</h3>
@@ -117,7 +109,6 @@
                     @endif
 
                     @if($colocation && $colocation->categories->count() > 0)
-                        <!-- Categories -->
                         <div class="bg-white rounded-xl shadow p-8">
                             <h3 class="text-xl font-bold text-gray-900 mb-4">Categories</h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -135,10 +126,8 @@
 
                 </div>
 
-                <!-- Sidebar -->
                 <div class="lg:col-span-1">
                     @if($colocation)
-                        <!-- Colocation Card -->
                         <div class="bg-gray-900 rounded-xl shadow-xl overflow-hidden sticky top-6">
                             <div class="p-6 border-b border-gray-800">
                                 <h3 class="text-xl font-bold text-white mb-2">{{ $colocation->name }}</h3>
@@ -223,7 +212,6 @@
                             </div>
                         </div>
                     @else
-                        <!-- No Colocation -->
                         <div class="bg-white rounded-xl shadow p-8 text-center">
                             <svg class="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>

@@ -10,10 +10,10 @@
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
                     </svg>
-                    Inviter
+                    Invite
                 </a>
                 <a href="{{ route('colocations.edit', $colocation) }}" class="inline-flex items-center px-4 py-2 bg-gray-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 transition">
-                    Paramètres
+                    Settings
                 </a>
             </div>
             @endif
@@ -23,12 +23,11 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
-            <!-- Filter by Month -->
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-xl p-6">
                 <form method="GET" class="flex items-center space-x-4">
-                    <label class="text-sm font-medium text-gray-700">Filtrer par mois:</label>
+                    <label class="text-sm font-medium text-gray-700">Filter by month:</label>
                     <select name="month" class="rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500">
-                        <option value="">Tous les mois</option>
+                        <option value="">All months</option>
                         @for($i = 1; $i <= 12; $i++)
                             <option value="{{ $i }}" {{ request('month') == $i ? 'selected' : '' }}>
                                 {{ \Carbon\Carbon::create()->month($i)->format('F') }}
@@ -36,15 +35,14 @@
                         @endfor
                     </select>
                     <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
-                        Filtrer
+                        Filter
                     </button>
                 </form>
             </div>
 
-            <!-- Members Section -->
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-xl">
                 <div class="p-6 border-b border-gray-200">
-                    <h3 class="text-lg font-semibold text-gray-900">Membres ({{ $colocation->activeMembers()->count() }})</h3>
+                    <h3 class="text-lg font-semibold text-gray-900">Members ({{ $colocation->activeMembers()->count() }})</h3>
                 </div>
                 <div class="p-6">
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -65,7 +63,7 @@
                                     </span>
                                     @else
                                     <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
-                                        Membre
+                                        Member
                                     </span>
                                     @endif
                                     <span class="text-xs text-gray-500">⭐ {{ $membership->user->reputation }}</span>
@@ -77,15 +75,14 @@
                 </div>
             </div>
 
-            <!-- Balance Overview -->
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-xl">
                 <div class="p-6 border-b border-gray-200 flex justify-between items-center">
-                    <h3 class="text-lg font-semibold text-gray-900">Vue d'ensemble des soldes</h3>
+                    <h3 class="text-lg font-semibold text-gray-900">Balance Overview</h3>
                     <a href="{{ route('expenses.create', $colocation) }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 transition">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                         </svg>
-                        Ajouter une dépense
+                        Add Expense
                     </a>
                 </div>
                 <div class="p-6">
@@ -109,7 +106,7 @@
                                 </div>
                                 <div class="pt-2 border-t border-gray-300">
                                     <div class="flex justify-between">
-                                        <span class="font-semibold text-gray-700">Solde:</span>
+                                        <span class="font-semibold text-gray-700">Balance:</span>
                                         <span class="font-bold text-lg text-indigo-600">0.00 €</span>
                                     </div>
                                 </div>
@@ -120,11 +117,10 @@
                 </div>
             </div>
 
-            <!-- Settlements (Who owes whom) -->
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-xl">
                 <div class="p-6 border-b border-gray-200">
-                    <h3 class="text-lg font-semibold text-gray-900">Remboursements simplifiés</h3>
-                    <p class="text-sm text-gray-500 mt-1">Qui doit rembourser qui</p>
+                    <h3 class="text-lg font-semibold text-gray-900">Simplified Reimbursements</h3>
+                    <p class="text-sm text-gray-500 mt-1">Who should reimburse whom</p>
                 </div>
                 <div class="p-6">
                     <div class="space-y-4">
@@ -138,10 +134,9 @@
                 </div>
             </div>
 
-            <!-- Expenses List -->
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-xl">
                 <div class="p-6 border-b border-gray-200">
-                    <h3 class="text-lg font-semibold text-gray-900">Historique des dépenses</h3>
+                    <h3 class="text-lg font-semibold text-gray-900">Expense History</h3>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200">
@@ -151,14 +146,14 @@
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Catégorie</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Payé par</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Montant</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
                             <tr>
                                 <td colspan="6" class="px-6 py-12 text-center text-gray-500">
-                                    Aucune dépense enregistrée
+                                    No expenses recorded
                                 </td>
                             </tr>
                         </tbody>
