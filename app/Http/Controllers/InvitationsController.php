@@ -27,6 +27,11 @@ class InvitationsController extends Controller
     public function generateKey()
     {
         $user = Auth::user();
+        
+        if (!$user->activeMembership || !$user->activeMembership->colocation) {
+            return redirect()->back()->withErrors(['error' => 'You must be in a colocation to generate invitation keys']);
+        }
+        
         $colocation = $user->activeMembership->colocation;
         
         $invitation = invitations::create([
@@ -100,17 +105,35 @@ class InvitationsController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate(['email' => 'required|email']);
+        
         $user = \App\Models\User::where('email', $request->email)->first();
 
         if (!$user) {
-            return redirect()->back()->withErrors(['email' => 'Invalid email']);
+            return redirect()->back()->withErrors(['email' => 'No user found with this email']);
+        }
+        
+        if ($user->id === Auth::id()) {
+            return redirect()->back()->withErrors(['email' => 'You cannot invite yourself']);
         }
 
         if (\App\Models\memberships::where('user_id', $user->id)->whereNull('left_at')->exists()) {
-            return redirect()->back()->withErrors(['email' => 'This email has a colocation']);
+            return redirect()->back()->withErrors(['email' => 'This user already has an active colocation']);
         }
 
-        $colocation = Auth::user()->activeMembership->colocation;
+        $currentUser = Auth::user();
+        if (!$currentUser->activeMembership || !$currentUser->activeMembership->colocation) {
+            return redirect()->back()->withErrors(['error' => 'You must be in a colocation to send invitations']);
+        }
+        
+        $colocation = $currentUser->activeMembership->colocation;
+        
+        if (invitations::where('colocation_id', $colocation->id)
+            ->where('email', $request->email)
+            ->where('status', 'pending')
+            ->exists()) {
+            return redirect()->back()->withErrors(['email' => 'An invitation is already pending for this email']);
+        }
 
         invitations::create([
             'colocation_id' => $colocation->id,
@@ -124,7 +147,7 @@ class InvitationsController extends Controller
 
         $user->notify(new \App\Notifications\ColocationInvitation($colocation->id, $colocation->name));
 
-        return redirect()->route('invitations.create');
+        return redirect()->route('invitations.create')->with('success', 'Invitation sent successfully');
     }
 
     /**

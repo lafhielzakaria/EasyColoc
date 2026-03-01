@@ -30,7 +30,6 @@ class ColocationsController extends Controller
             'name' => $request->name,
             'description' => $request->description,
             'address' => $request->address,
-            'owner_id' => Auth::id(),
             'status' => 'active',
         ]);
 
