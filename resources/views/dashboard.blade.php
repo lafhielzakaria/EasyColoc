@@ -60,6 +60,60 @@
                         <p class="text-gray-500">Your colocation activity will appear here.</p>
                     </div>
 
+                    @if(session('settlements'))
+                        <!-- Settlements -->
+                        <div class="bg-white rounded-xl shadow p-8">
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">Settlements Created</h3>
+                            <div class="space-y-3">
+                                @foreach(session('settlements') as $settlement)
+                                    <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                                        <p class="text-sm text-gray-800">
+                                            <span class="font-bold text-lg">{{ number_format($settlement->amount, 2) }} €</span>: 
+                                            <span class="font-medium text-red-600">{{ $settlement->debtor->name }}</span> 
+                                            <span class="text-gray-500 mx-2">→</span> 
+                                            <span class="font-medium text-green-600">{{ $settlement->creditor->name }}</span>
+                                        </p>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
+
+                    @if($settlements && $settlements->count() > 0)
+                        <!-- Settlements -->
+                        <div class="bg-white rounded-xl shadow p-8">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-xl font-bold text-gray-900">Unpaid Settlements</h3>
+                                <div class="text-right">
+                                    <p class="text-sm text-gray-500">Total You Owe</p>
+                                    <p class="text-2xl font-bold text-red-600">{{ number_format($totalUnpaid, 2) }} €</p>
+                                </div>
+                            </div>
+                            <div class="space-y-3">
+                                @foreach($settlements as $settlement)
+                                    <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                                        <div class="flex items-center justify-between">
+                                            <p class="text-sm text-gray-800">
+                                                <span class="font-bold text-lg">{{ number_format($settlement->amount, 2) }} €</span>: 
+                                                <span class="font-medium text-red-600">{{ $settlement->debtor->name }}</span> 
+                                                <span class="text-gray-500 mx-2">→</span> 
+                                                <span class="font-medium text-green-600">{{ $settlement->creditor->name }}</span>
+                                            </p>
+                                            @if($settlement->debtor_id == auth()->id())
+                                                <form method="POST" action="{{ route('settlements.markPaid', $settlement->id) }}" class="inline">
+                                                    @csrf
+                                                    <button type="submit" class="px-3 py-1 bg-green-600 text-white text-xs rounded hover:bg-green-700 transition">
+                                                        Mark as Paid
+                                                    </button>
+                                                </form>
+                                            @endif
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
+
                     @if($colocation && $colocation->categories->count() > 0)
                         <!-- Categories -->
                         <div class="bg-white rounded-xl shadow p-8">
