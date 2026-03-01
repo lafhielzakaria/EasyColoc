@@ -11,22 +11,6 @@
                         </div>
                     </a>
                 </div>
-
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                    @if(auth()->user()->activeMembership)
-                    <x-nav-link :href="route('colocations.show', auth()->user()->activeMembership->colocation)" :active="request()->routeIs('colocations.*')">
-                        {{ __('My Colocation') }}
-                    </x-nav-link>
-                    @endif
-                    @if(auth()->user()->is_admin)
-                    <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.*')">
-                        {{ __('Administration') }}
-                    </x-nav-link>
-                    @endif
-                </div>
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ms-6">
@@ -83,19 +67,6 @@
 
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
-            @if(auth()->user()->activeMembership)
-            <x-responsive-nav-link :href="route('colocations.show', auth()->user()->activeMembership->colocation)" :active="request()->routeIs('colocations.*')">
-                {{ __('My Colocation') }}
-            </x-responsive-nav-link>
-            @endif
-            @if(auth()->user()->is_admin)
-            <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.*')">
-                {{ __('Administration') }}
-            </x-responsive-nav-link>
-            @endif
         </div>
 
         <div class="pt-4 pb-1 border-t border-gray-200">
