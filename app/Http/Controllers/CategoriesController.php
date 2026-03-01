@@ -20,23 +20,41 @@ class CategoriesController extends Controller
      */
     public function create()
     {
-        //
+        return view('categories.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $membership = \App\Models\memberships::where('user_id', \Auth::id())
+            ->whereNull('left_at')
+            ->first();
+        
+        $request->validate([
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                \Illuminate\Validation\Rule::unique('categories')->where(function ($query) use ($membership) {
+                    return $query->where('colocation_id', $membership->colocation_id);
+                })
+            ]
+        ]);
+
+        categories::create([
+            'colocation_id' => $membership->colocation_id,
+            'name' => $request->name,
+        ]);
+
+        return redirect()->route('dashboard')->with('success', 'Category created successfully!');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(categories $categories)
+    public function show($categoryId)
     {
-        //
+        $category = categories::with('expenses')->findOrFail($categoryId);
+        return view('categories.show', compact('category'));
     }
 
     /**
