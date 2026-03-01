@@ -27,7 +27,29 @@ Route::get('/dashboard', function () {
     
     $colocation = $membership ? $membership->colocation : null;
     
-    return view('dashboard', compact('colocation'));
+    $settlements = [];
+    $totalUnpaid = 0;
+    if ($colocation) {
+        $settlements = \App\Models\settlements::where('is_paid', false)
+            ->where(function($query) {
+                $query->where('debtor_id', Auth::id())
+                      ->orWhere('creditor_id', Auth::id());
+            })
+            ->whereHas('expenses', function($query) use ($colocation) {
+                $query->where('colocation_id', $colocation->id);
+            })
+            ->with('debtor', 'creditor')
+            ->get();
+        
+        $totalUnpaid = \App\Models\settlements::where('is_paid', false)
+            ->where('debtor_id', Auth::id())
+            ->whereHas('expenses', function($query) use ($colocation) {
+                $query->where('colocation_id', $colocation->id);
+            })
+            ->sum('amount');
+    }
+    
+    return view('dashboard', compact('colocation', 'settlements', 'totalUnpaid'));
 })->middleware(['auth'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -89,6 +111,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/categories/{categories}', [CategoriesController::class, 'update'])->name('categories.update');
     Route::delete('/categories/{categories}', [CategoriesController::class, 'destroy'])->name('categories.destroy');
 
+    Route::post('/settlements/{settlement}/mark-paid', [SettlementsController::class, 'markAsPaid'])->name('settlements.markPaid');
     Route::get('/settlements', [SettlementsController::class, 'index'])->name('settlements.index');
     Route::get('/settlements/create', [SettlementsController::class, 'create'])->name('settlements.create');
     Route::post('/settlements', [SettlementsController::class, 'store'])->name('settlements.store');

@@ -7,6 +7,17 @@ use Illuminate\Http\Request;
 
 class SettlementsController extends Controller
 {
+    public function markAsPaid($settlementId)
+    {
+        $settlement = settlements::findOrFail($settlementId);
+        
+        settlements::where('expenses_id', $settlement->expenses_id)
+            ->where('debtor_id', \Auth::id())
+            ->update(['is_paid' => true]);
+        
+        return redirect()->route('dashboard')->with('success', 'Settlement marked as paid!');
+    }
+
     /**
      * Display a listing of the resource.
      */

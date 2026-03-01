@@ -34,7 +34,7 @@ class ExpensesController extends Controller
             'category_id' => 'required|exists:categories,id',
         ]);
 
-        expenses::create([
+        $expense = expenses::create([
             'colocation_id' => $membership->colocation_id,
             'category_id' => $request->category_id,
             'created_by' => $request->created_by,
@@ -44,7 +44,27 @@ class ExpensesController extends Controller
             'date' => $request->date,
         ]);
 
-        return redirect()->route('dashboard')->with('success', 'Expense created successfully!');
+        $colocation = $membership->colocation;
+        $activeMembers = $colocation->activeMembers;
+        $memberCount = $activeMembers->count();
+        $amountPerPerson = $request->amount / $memberCount;
+
+        $settlements = [];
+        foreach ($activeMembers as $member) {
+            if ($member->user_id != $request->created_by) {
+                $settlement = \App\Models\settlements::create([
+                    'expenses_id' => $expense->id,
+                    'debtor_id' => $member->user_id,
+                    'creditor_id' => $request->created_by,
+                    'amount' => $amountPerPerson,
+                    'is_paid' => false,
+                ]);
+                $settlement->load('debtor', 'creditor');
+                $settlements[] = $settlement;
+            }
+        }
+
+        return redirect()->route('dashboard')->with(['success' => 'Expense created successfully!', 'settlements' => $settlements]);
     }
 
     public function show(expenses $expenses)
