@@ -65,15 +65,15 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
     Route::delete('/colocation/leave', [MembershipsController::class, 'leave'])->name('colocation.leave');
     Route::delete('/colocation/cancel', [ColocationsController::class, 'cancel'])->name('colocation.cancel');
-    Route::delete('/membership/{membership}', [MembershipsController::class, 'removeMember'])->name('membership.remove');
-    Route::post('/membership/{membership}/transfer-ownership', [MembershipsController::class, 'transferOwnership'])->name('membership.transferOwnership');
+    Route::delete('/membership/{membership}', [MembershipsController::class, 'removeMember'])->name('membership.remove')->middleware('role:owner');
+    Route::post('/membership/{membership}/transfer-ownership', [MembershipsController::class, 'transferOwnership'])->name('membership.transferOwnership')->middleware('role:owner');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-    Route::post('/admin/users/{user}/ban', [AdminController::class, 'banUser'])->name('admin.users.ban');
-    Route::post('/admin/users/{user}/unban', [AdminController::class, 'unbanUser'])->name('admin.users.unban');
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard')->middleware('admin');
+    Route::post('/admin/users/{user}/ban', [AdminController::class, 'banUser'])->name('admin.users.ban')->middleware('admin');
+    Route::post('/admin/users/{user}/unban', [AdminController::class, 'unbanUser'])->name('admin.users.unban')->middleware('admin');
 
     Route::get('/colocations', [ColocationsController::class, 'index'])->name('colocations.index');
     Route::get('/colocations/create', [ColocationsController::class, 'create'])->name('colocations.create');
